@@ -6,8 +6,8 @@ require File.expand_path('../config/environment', __dir__)
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
-require 'support/factory_bot'
-require 'faker'
+# require 'support/factory_bot'
+# require 'faker'
 require 'simplecov'
 SimpleCov.start
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -74,7 +74,7 @@ Shoulda::Matchers.configure do |config|
   end
 end
 
-VCR.configure do |config|
-  config.cassette_library_dir = "fixtures/vcr_cassettes"
-  config.hook_into :webmock
-end
+# VCR.configure do |config|
+#   config.cassette_library_dir = "fixtures/vcr_cassettes"
+#   config.hook_into :webmock
+# end
