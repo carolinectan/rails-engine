@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Merchants API' do
+describe 'merchants API' do
   describe 'get all merchants' do
     it 'sends a list of 20 merchants when fetching page 1' do
       create_list(:merchant, 25)
