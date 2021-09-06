@@ -3,9 +3,11 @@ class Api::V1::ItemsController < ApplicationController
     item = Item.paginate(page: params[:page], per_page: params[:per_page])
     render json: ItemSerializer.new(item)
   end
-  # def show
-  #
-  # end
+
+  def show
+    item = Item.find(params[:id])
+    render json: ItemSerializer.new(item)
+  end
   # def new
   #
   # end
