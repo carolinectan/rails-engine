@@ -393,6 +393,20 @@ describe 'items API' do
     end
 
     it 'can delete an item' do
+      item1_id = create(:item).id
+      item2_id = create(:item).id
+
+      headers = {"CONTENT_TYPE" => "application/json"}
+
+      delete "/api/v1/items/#{item2_id}", headers: headers
+
+      expect(response).to be_successful
+      expect(Item.last.id).to_not eq(item2_id)
+
+      # destroy the corresponding record (if found) and any associated data
+      # destroy any invoice if this was the only item on an invoice
+      # NOT return any JSON body at all, and should return a 204 HTTP status code
+      # NOT utilize a Serializer (Rails will handle sending a 204 on its own if you just .destroy the object)
     end
   end
 end

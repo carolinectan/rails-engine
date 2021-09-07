@@ -21,9 +21,12 @@ class Api::V1::ItemsController < ApplicationController
   # def update
   #
   # end
-  # def destroy
-  #
-  # end
+
+  def destroy
+    item = Item.find(params[:id])
+    item.destroy
+  end
+
   private
   def item_params
     params.require(:item).permit(:name, :description, :unit_price, :merchant_id)
