@@ -396,15 +396,28 @@ describe 'items API' do
       item1_id = create(:item).id
       item2_id = create(:item).id
 
+      invoice1_id = create(:invoice).id
+      invoice2_id = create(:invoice).id
+
+      invoice_item1_id = create(:invoice_item, invoice_id: invoice1_id, item_id: item1_id).id
+      invoice_item2_id = create(:invoice_item, invoice_id: invoice2_id, item_id: item2_id).id
+
       headers = {"CONTENT_TYPE" => "application/json"}
 
       delete "/api/v1/items/#{item2_id}", headers: headers
 
       expect(response).to be_successful
-      expect(Item.last.id).to_not eq(item2_id)
 
-      # destroy the corresponding record (if found) and any associated data
+      expect(Item.last.id).to_not eq(item2_id)
+      expect(Item.last.id).to eq(item1_id)
+
+      expect(InvoiceItem.last.id).to_not eq(invoice_item2_id)
+      expect(InvoiceItem.last.id).to eq(invoice_item1_id)
+
       # destroy any invoice if this was the only item on an invoice
+      # expect(Invoice.last.id).to_not eq(invoice2_id)
+      # expect(Invoice.last.id).to eq(invoice1_id)
+
       # NOT return any JSON body at all, and should return a 204 HTTP status code
       # NOT utilize a Serializer (Rails will handle sending a 204 on its own if you just .destroy the object)
     end
