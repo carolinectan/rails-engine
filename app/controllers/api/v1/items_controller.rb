@@ -10,9 +10,7 @@ class Api::V1::ItemsController < ApplicationController
     rescue ActiveRecord::RecordNotFound
     render_not_found
   end
-  # def new
-  #
-  # end
+
   def create
     item = Item.create(item_params)
     render json: ItemSerializer.new(item)

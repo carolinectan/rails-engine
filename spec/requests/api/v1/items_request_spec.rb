@@ -338,7 +338,7 @@ describe 'items API' do
     end
   end
 
-  describe 'create an item' do
+  describe 'create and delete an item' do
     it 'can create an item' do
       merch_id = create(:merchant).id
 
@@ -355,11 +355,44 @@ describe 'items API' do
 
       created_item = Item.last
 
+      item = JSON.parse(response.body, symbolize_names: true)
+
       expect(response).to be_successful
+
       expect(created_item.name).to eq(item_params[:name])
       expect(created_item.description).to eq(item_params[:description])
       expect(created_item.unit_price).to eq(item_params[:unit_price])
       expect(created_item.merchant_id).to eq(item_params[:merchant_id])
+
+      expect(item[:data].length).to eq(3)
+      expect(item[:data]).to be_a(Hash)
+
+      expect(item[:data]).to have_key(:id)
+      expect(item[:data][:id]).to be_a(String)
+      expect(item[:data][:id]).to eq("#{created_item.id}")
+
+      expect(item[:data]).to have_key(:type)
+      expect(item[:data][:type]).to eq('item')
+      expect(item[:data][:type]).to be_a(String)
+
+      expect(item[:data]).to have_key(:attributes)
+      expect(item[:data][:attributes]).to be_a(Hash)
+      expect(item[:data][:attributes].length).to eq(4)
+
+      expect(item[:data][:attributes]).to have_key(:name)
+      expect(item[:data][:attributes][:name]).to be_a(String)
+
+      expect(item[:data][:attributes]).to have_key(:description)
+      expect(item[:data][:attributes][:description]).to be_a(String)
+
+      expect(item[:data][:attributes]).to have_key(:unit_price)
+      expect(item[:data][:attributes][:unit_price]).to be_a(Float)
+
+      expect(item[:data][:attributes]).to have_key(:merchant_id)
+      expect(item[:data][:attributes][:merchant_id]).to be_an(Integer)
+    end
+
+    it 'can delete an item' do
     end
   end
 end
