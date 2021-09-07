@@ -337,4 +337,29 @@ describe 'items API' do
       expect(response.status).to eq(404)
     end
   end
+
+  describe 'create an item' do
+    it 'can create an item' do
+      merch_id = create(:merchant).id
+
+      item_params = ({
+                      name: 'gold pen',
+                      description: 'writes with gold ink',
+                      unit_price: 200.89,
+                      merchant_id: merch_id
+                    })
+
+      headers = {"CONTENT_TYPE" => "application/json"}
+
+      post '/api/v1/items', headers: headers, params: JSON.generate(item: item_params)
+
+      created_item = Item.last
+
+      expect(response).to be_successful
+      expect(created_item.name).to eq(item_params[:name])
+      expect(created_item.description).to eq(item_params[:description])
+      expect(created_item.unit_price).to eq(item_params[:unit_price])
+      expect(created_item.merchant_id).to eq(item_params[:merchant_id])
+    end
+  end
 end
