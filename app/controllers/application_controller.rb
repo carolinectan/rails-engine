@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::API
-  def render_not_found
+  def not_found_404
     render json: {}, status: :not_found # 404
   end
 end

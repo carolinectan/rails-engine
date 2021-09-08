@@ -7,22 +7,28 @@ class Api::V1::ItemsController < ApplicationController
   def show
     item = Item.find(params[:id])
     render json: ItemSerializer.new(item)
-    rescue ActiveRecord::RecordNotFound
-    render_not_found
+  rescue ActiveRecord::RecordNotFound
+    not_found_404
   end
 
   def create
     item = Item.create(item_params)
-    # if item.save
+
+    if item.save
     render(json: ItemSerializer.new(item), status: 201)
-    # else render 404 error message
-    # end
+    else
+      not_found_404
+    end
   end
 
   def update
     item = Item.find(params[:id])
-    item.update(item_params)
-    # render(json: ItemSerializer.new(item), status: 201)
+
+    if item.update(item_params)
+      render(json: ItemSerializer.new(item), status: 201)
+    end
+  rescue ActiveRecord::RecordNotFound
+    not_found_404
   end
 
   def destroy

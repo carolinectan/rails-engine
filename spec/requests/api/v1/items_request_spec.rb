@@ -435,7 +435,8 @@ describe 'items API' do
       item_params = {
         'name': 'new name',
         'description': 'new description',
-        'unit_price': 111.22
+        'unit_price': 111.22,
+        # 'merchant_id': previous_merchant_id
       }
       headers = { 'CONTENT_TYPE' => 'application/json' }
 
