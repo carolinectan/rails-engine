@@ -1,10 +1,10 @@
 class Api::V1::MerchantsController < ApplicationController
   def index
-    if params[:page].to_i <= 1
-      merchant = Merchant.paginate(page: 1, per_page: params[:per_page])
-    else
-      merchant = Merchant.paginate(page: params[:page], per_page: params[:per_page])
-    end
+    merchant = if params[:page].to_i <= 1
+                 Merchant.paginate(page: 1, per_page: params[:per_page])
+               else
+                 Merchant.paginate(page: params[:page], per_page: params[:per_page])
+               end
     render json: MerchantSerializer.new(merchant)
 
     # if params[:page] && params[:per_page]

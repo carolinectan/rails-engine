@@ -11,17 +11,17 @@ RSpec.describe InvoiceItem, type: :model do
     it { should validate_presence_of(:unit_price) }
   end
 
-#   before :each do
-#
-#   end
-#
-#   describe 'class methods' do
-#     describe '.' do
-#     end
-#   end
-#
-#   describe 'instance methods' do
-#     describe '#' do
-#     end
-#   end
+  #   before :each do
+  #
+  #   end
+  #
+  #   describe 'class methods' do
+  #     describe '.' do
+  #     end
+  #   end
+  #
+  #   describe 'instance methods' do
+  #     describe '#' do
+  #     end
+  #   end
 end

@@ -57,7 +57,7 @@ describe 'merchants API' do
       expect(response).to be_successful
 
       expect(merchant[:data]).to have_key(:id)
-      expect(merchant[:data][:id]).to eq("#{id}")
+      expect(merchant[:data][:id]).to eq(id.to_s)
 
       expect(merchant[:data][:attributes]).to have_key(:name)
       expect(merchant[:data][:attributes][:name]).to be_a(String)

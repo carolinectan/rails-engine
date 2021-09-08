@@ -203,7 +203,7 @@ describe 'items API' do
     it 'fetches page of items which contain no data' do
       create_list(:item, 52)
 
-      get '/api/v1/items', params: { page: 20000}
+      get '/api/v1/items', params: { page: 20_000 }
 
       expect(response).to be_successful
 
@@ -241,7 +241,7 @@ describe 'items API' do
     it 'fetches all items if per page is really big' do
       create_list(:item, 23)
 
-      get '/api/v1/items', params: { per_page: 250_000}
+      get '/api/v1/items', params: { per_page: 250_000 }
 
       expect(response).to be_successful
 
@@ -294,7 +294,7 @@ describe 'items API' do
 
       expect(item[:data]).to have_key(:id)
       expect(item[:data][:id]).to be_a(String)
-      expect(item[:data][:id]).to eq("#{id}")
+      expect(item[:data][:id]).to eq(id.to_s)
 
       expect(item[:data]).to have_key(:type)
       expect(item[:data][:type]).to eq('item')
@@ -328,7 +328,7 @@ describe 'items API' do
     end
 
     it 'returns a 404 with a string instead of integer id' do
-      id = "string-instead-of-integer"
+      id = 'string-instead-of-integer'
 
       get "/api/v1/items/#{id}"
 
@@ -342,14 +342,14 @@ describe 'items API' do
     it 'can create an item' do
       merch_id = create(:merchant).id
 
-      item_params = ({
-                      name: 'gold pen',
-                      description: 'writes with gold ink',
-                      unit_price: 200.89,
-                      merchant_id: merch_id
-                    })
+      item_params = {
+        name: 'gold pen',
+        description: 'writes with gold ink',
+        unit_price: 200.89,
+        merchant_id: merch_id
+      }
 
-      headers = {"CONTENT_TYPE" => "application/json"}
+      headers = { 'CONTENT_TYPE' => 'application/json' }
 
       post '/api/v1/items', headers: headers, params: JSON.generate(item: item_params)
 
@@ -369,7 +369,7 @@ describe 'items API' do
 
       expect(item[:data]).to have_key(:id)
       expect(item[:data][:id]).to be_a(String)
-      expect(item[:data][:id]).to eq("#{created_item.id}")
+      expect(item[:data][:id]).to eq(created_item.id.to_s)
 
       expect(item[:data]).to have_key(:type)
       expect(item[:data][:type]).to eq('item')
@@ -402,7 +402,7 @@ describe 'items API' do
       invoice_item1_id = create(:invoice_item, invoice_id: invoice1_id, item_id: item1_id).id
       invoice_item2_id = create(:invoice_item, invoice_id: invoice2_id, item_id: item2_id).id
 
-      headers = {"CONTENT_TYPE" => "application/json"}
+      headers = { 'CONTENT_TYPE' => 'application/json' }
 
       delete "/api/v1/items/#{item2_id}", headers: headers
 
@@ -414,7 +414,7 @@ describe 'items API' do
       expect(InvoiceItem.last.id).to_not eq(invoice_item2_id)
       expect(InvoiceItem.last.id).to eq(invoice_item1_id)
 
-      expect{Item.find(item2_id)}.to raise_error(ActiveRecord::RecordNotFound)
+      expect { Item.find(item2_id) }.to raise_error(ActiveRecord::RecordNotFound)
       # destroy any invoice if this was the only item on an invoice
       # expect(Invoice.last.id).to_not eq(invoice2_id)
       # expect(Invoice.last.id).to eq(invoice1_id)
@@ -433,14 +433,14 @@ describe 'items API' do
       previous_merchant_id = Item.last.merchant_id
 
       item_params = {
-                      'name': 'new name',
-                      'description': 'new description',
-                      'unit_price': 111.22,
-                      'merchant_id': 11
-                    }
-      headers = {"CONTENT_TYPE" => 'application/json'}
+        'name': 'new name',
+        'description': 'new description',
+        'unit_price': 111.22,
+        'merchant_id': 11
+      }
+      headers = { 'CONTENT_TYPE' => 'application/json' }
 
-      patch "/api/v1/items/#{id}", headers: headers, params: JSON.generate({item: item_params})
+      patch "/api/v1/items/#{id}", headers: headers, params: JSON.generate({ item: item_params })
 
       item = Item.find_by(id: id)
 

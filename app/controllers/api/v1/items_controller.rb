@@ -7,14 +7,14 @@ class Api::V1::ItemsController < ApplicationController
   def show
     item = Item.find(params[:id])
     render json: ItemSerializer.new(item)
-    rescue ActiveRecord::RecordNotFound
+  rescue ActiveRecord::RecordNotFound
     render_not_found
   end
 
   def create
     item = Item.create(item_params)
     # if item.save
-      render(json: ItemSerializer.new(item), status: 201)
+    render(json: ItemSerializer.new(item), status: 201)
     # else render 404 error message
     # end
   end
@@ -32,6 +32,7 @@ class Api::V1::ItemsController < ApplicationController
   end
 
   private
+
   def item_params
     params.require(:item).permit(:name, :description, :unit_price, :merchant_id)
   end
