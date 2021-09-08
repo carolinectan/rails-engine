@@ -414,12 +414,49 @@ describe 'items API' do
       expect(InvoiceItem.last.id).to_not eq(invoice_item2_id)
       expect(InvoiceItem.last.id).to eq(invoice_item1_id)
 
+      expect{Item.find(item2_id)}.to raise_error(ActiveRecord::RecordNotFound)
       # destroy any invoice if this was the only item on an invoice
       # expect(Invoice.last.id).to_not eq(invoice2_id)
       # expect(Invoice.last.id).to eq(invoice1_id)
 
       # NOT return any JSON body at all, and should return a 204 HTTP status code
       # NOT utilize a Serializer (Rails will handle sending a 204 on its own if you just .destroy the object)
+    end
+  end
+
+  describe 'udpate an item' do
+    it 'can update an existing item' do
+      id = create(:item).id
+      previous_name = Item.last.name
+      previous_description = Item.last.description
+      previous_unit_price = Item.last.unit_price
+      previous_merchant_id = Item.last.merchant_id
+
+      item_params = {
+                      'name': 'new name',
+                      'description': 'new description',
+                      'unit_price': 111.22,
+                      'merchant_id': 11
+                    }
+      headers = {"CONTENT_TYPE" => 'application/json'}
+
+      patch "/api/v1/items/#{id}", headers: headers, params: JSON.generate({item: item_params})
+
+      item = Item.find_by(id: id)
+
+      expect(response).to be_successful
+
+      expect(item.name).to_not eq(previous_name)
+      expect(item.name).to eq('new name')
+
+      expect(item.name).to_not eq(previous_description)
+      expect(item.description).to eq('new description')
+
+      expect(item.name).to_not eq(previous_unit_price)
+      expect(item.unit_price).to eq('new unit price')
+
+      expect(item.name).to_not eq(previous_merchant_id)
+      expect(item.merchant_id).to eq('new merchant id')
     end
   end
 end
