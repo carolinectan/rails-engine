@@ -425,7 +425,7 @@ describe 'items API' do
   end
 
   describe 'udpate an item' do
-    it 'can update an existing item' do
+    it 'can update all attributes of an existing item' do
       id = create(:item).id
       previous_name = Item.last.name
       previous_description = Item.last.description
@@ -462,14 +462,12 @@ describe 'items API' do
       expect(item.merchant_id).to eq(new_merchant_id)
     end
 
-    it 'can update an existing item with partial attributes' do
+    it 'can update partial attributes of an existing item' do
       id = create(:item).id
       previous_name = Item.last.name
       previous_description = Item.last.description
       previous_unit_price = Item.last.unit_price
       previous_merchant_id = Item.last.merchant_id
-
-      new_merchant_id = create(:merchant).id
 
       item_params = {
         'name': 'new name',
@@ -485,11 +483,8 @@ describe 'items API' do
 
       expect(item.name).to_not eq(previous_name)
       expect(item.name).to eq('new name')
-
-      expect(item.description).to eq('previous_description')
-
+      expect(item.description).to eq(previous_description)
       expect(item.unit_price).to eq(previous_unit_price)
-
       expect(item.merchant_id).to eq(previous_merchant_id)
     end
   end
