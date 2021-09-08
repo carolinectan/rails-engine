@@ -435,8 +435,7 @@ describe 'items API' do
       item_params = {
         'name': 'new name',
         'description': 'new description',
-        'unit_price': 111.22,
-        'merchant_id': 11
+        'unit_price': 111.22
       }
       headers = { 'CONTENT_TYPE' => 'application/json' }
 
@@ -453,10 +452,7 @@ describe 'items API' do
       expect(item.description).to eq('new description')
 
       expect(item.name).to_not eq(previous_unit_price)
-      expect(item.unit_price).to eq('new unit price')
-
-      expect(item.name).to_not eq(previous_merchant_id)
-      expect(item.merchant_id).to eq('new merchant id')
+      expect(item.unit_price).to eq(111.22)
     end
   end
 end

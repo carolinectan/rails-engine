@@ -7,7 +7,7 @@ class Api::V1::ItemsController < ApplicationController
   def show
     item = Item.find(params[:id])
     render json: ItemSerializer.new(item)
-  rescue ActiveRecord::RecordNotFound
+    rescue ActiveRecord::RecordNotFound
     render_not_found
   end
 
@@ -19,12 +19,11 @@ class Api::V1::ItemsController < ApplicationController
     # end
   end
 
-  # def edit
-  #
-  # end
-  # def update
-  #
-  # end
+  def update
+    item = Item.find(params[:id])
+    item.update(item_params)
+    # render(json: ItemSerializer.new(item), status: 201)
+  end
 
   def destroy
     item = Item.find(params[:id])
