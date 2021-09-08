@@ -470,7 +470,7 @@ describe 'items API' do
       previous_merchant_id = Item.last.merchant_id
 
       item_params = {
-        'name': 'new name',
+        'name': 'new name'
       }
 
       headers = { 'CONTENT_TYPE' => 'application/json' }

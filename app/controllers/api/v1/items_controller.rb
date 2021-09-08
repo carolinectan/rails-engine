@@ -15,7 +15,7 @@ class Api::V1::ItemsController < ApplicationController
     item = Item.create(item_params)
 
     if item.save
-    render(json: ItemSerializer.new(item), status: 201)
+      render(json: ItemSerializer.new(item), status: 201)
     else
       not_found_404
     end
