@@ -432,12 +432,15 @@ describe 'items API' do
       previous_unit_price = Item.last.unit_price
       previous_merchant_id = Item.last.merchant_id
 
+      new_merchant_id = create(:merchant).id
+
       item_params = {
         'name': 'new name',
         'description': 'new description',
         'unit_price': 111.22,
-        # 'merchant_id': previous_merchant_id
+        'merchant_id': new_merchant_id
       }
+
       headers = { 'CONTENT_TYPE' => 'application/json' }
 
       patch "/api/v1/items/#{id}", headers: headers, params: JSON.generate({ item: item_params })
@@ -454,6 +457,40 @@ describe 'items API' do
 
       expect(item.name).to_not eq(previous_unit_price)
       expect(item.unit_price).to eq(111.22)
+
+      expect(item.name).to_not eq(previous_merchant_id)
+      expect(item.merchant_id).to eq(new_merchant_id)
+    end
+
+    it 'can update an existing item with partial attributes' do
+      id = create(:item).id
+      previous_name = Item.last.name
+      previous_description = Item.last.description
+      previous_unit_price = Item.last.unit_price
+      previous_merchant_id = Item.last.merchant_id
+
+      new_merchant_id = create(:merchant).id
+
+      item_params = {
+        'name': 'new name',
+      }
+
+      headers = { 'CONTENT_TYPE' => 'application/json' }
+
+      patch "/api/v1/items/#{id}", headers: headers, params: JSON.generate({ item: item_params })
+
+      item = Item.find_by(id: id)
+
+      expect(response).to be_successful
+
+      expect(item.name).to_not eq(previous_name)
+      expect(item.name).to eq('new name')
+
+      expect(item.description).to eq('previous_description')
+
+      expect(item.unit_price).to eq(previous_unit_price)
+
+      expect(item.merchant_id).to eq(previous_merchant_id)
     end
   end
 end

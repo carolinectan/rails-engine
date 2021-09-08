@@ -24,11 +24,12 @@ class Api::V1::ItemsController < ApplicationController
   def update
     item = Item.find(params[:id])
 
-    if item.update(item_params)
+    if item_params[:merchant_id] && Merchant.find(item_params[:merchant_id]) == ActiveRecord::RecordNotFound
+      not_found_404
+    else
+      item.update(item_params)
       render(json: ItemSerializer.new(item), status: 201)
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found_404
   end
 
   def destroy
