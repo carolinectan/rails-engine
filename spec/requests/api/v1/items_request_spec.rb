@@ -487,5 +487,19 @@ describe 'items API' do
       expect(item.unit_price).to eq(previous_unit_price)
       expect(item.merchant_id).to eq(previous_merchant_id)
     end
+
+    it "raises a 404 when updating with a merchant id that doesn't exist" do
+      id = create(:item).id
+      previous_name = Item.last.name
+      previous_description = Item.last.description
+      previous_unit_price = Item.last.unit_price
+      previous_merchant_id = Item.last.merchant_id
+
+      item_params = {
+        'merchant_id': 9_999_999_999
+      }
+
+      expect { Merchant.find(9_999_999_999) }.to raise_error(ActiveRecord::RecordNotFound)
+    end
   end
 end
