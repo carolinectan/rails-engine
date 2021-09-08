@@ -395,12 +395,14 @@ describe 'items API' do
     it 'can delete an item' do
       item1_id = create(:item).id
       item2_id = create(:item).id
+      # item3_id = create(:item).id
 
       invoice1_id = create(:invoice).id
       invoice2_id = create(:invoice).id
 
       invoice_item1_id = create(:invoice_item, invoice_id: invoice1_id, item_id: item1_id).id
       invoice_item2_id = create(:invoice_item, invoice_id: invoice2_id, item_id: item2_id).id
+      # invoice_item2_id = create(:invoice_item, invoice_id: invoice2_id, item_id: item3_id).id
 
       headers = { 'CONTENT_TYPE' => 'application/json' }
 
@@ -416,9 +418,10 @@ describe 'items API' do
 
       expect { Item.find(item2_id) }.to raise_error(ActiveRecord::RecordNotFound)
       # destroy any invoice if this was the only item on an invoice
+      # add a dependent: :destroy to InvoiceItem with some conditional that checks if the item is the only invoice item on that invoice
       # expect(Invoice.last.id).to_not eq(invoice2_id)
       # expect(Invoice.last.id).to eq(invoice1_id)
-
+      # write sad path tests
       # NOT return any JSON body at all, and should return a 204 HTTP status code
       # NOT utilize a Serializer (Rails will handle sending a 204 on its own if you just .destroy the object)
     end
