@@ -18,8 +18,9 @@ describe 'find merchant API' do
 
       merchant = JSON.parse(response.body, symbolize_names: true)
 
-      expect(merchant[:data].count).to eq(1)
-      expect(merchant[:data]).to be_an(Array)
+      expect(merchant.count).to eq(1)
+      expect(merchant[:data].count).to eq(3)
+      expect(merchant[:data]).to be_a(Hash)
       expect(merchant[:data][:id].to_i).to eq(merchant1_id)
     end
   end
