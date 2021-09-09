@@ -1,11 +1,15 @@
 class Api::V1::Merchants::MerchantSearchController < ApplicationController
   def index
-    if params[:name]
+    if params[:name] && !(Merchant.where('name ILIKE ?', "%#{params[:name]}%").first).nil?
       merchant = Merchant.where('name ILIKE ?', "%#{params[:name]}%").first
       render json: MerchantSerializer.new(merchant)
     else
-    not_found_404
-    #   render json: MerchantSerializer.new(data: null)
+      # render json: [{}]
+      # render json: MerchantSerializer.new(data: null)
+      # render json: MerchantSerializer.new({data: []})
+      # render json: {} # => sad path, no fragment matched | AssertionError: expected {} to have property 'data'
+      render json: {data: {}} # =>sad path, no fragment matched | AssertionError: expected { Object (status, error, ...) } to have property 'data'
+      # render(json: null) # not this
     end
   end
 
