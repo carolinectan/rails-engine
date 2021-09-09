@@ -30,7 +30,7 @@ describe "item's merchant API" do
       expect(merchant[:data][:attributes][:name]).to be_a(String)
     end
 
-    xit 'returns a 404 if the item is not found' do
-    end
+    # it 'returns a 404 if the item is not found' do
+    # end
   end
 end
