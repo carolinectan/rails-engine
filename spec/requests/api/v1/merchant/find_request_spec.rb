@@ -8,7 +8,7 @@ describe 'find merchant API' do
       merchant3_id = create(:merchant, name: 'GOB').id
       merchant4_id = create(:merchant, name: 'Lindsay').id
       merchant5_id = create(:merchant, name: 'Buster').id
-      merchant5_id = create(:merchant, name: 'Michael Bluth').id
+      merchant6_id = create(:merchant, name: 'Michael Bluth').id
 
       search_query = 'bLutH'
 
