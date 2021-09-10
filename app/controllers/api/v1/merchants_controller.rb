@@ -25,7 +25,7 @@ class Api::V1::MerchantsController < ApplicationController
     render json: MerchantSerializer.new(merchant)
   end
 
-  def merchant_revenue
+  def merchants_revenue
     if params[:quantity] && params[:quantity].empty? == false
       merchants = Merchant.top_revenue(params[:quantity])
       render json: MerchantSerializer.merchant_name_revenue(merchants)
@@ -41,5 +41,10 @@ class Api::V1::MerchantsController < ApplicationController
     else
       render json: {error: ""}, status: :bad_request
     end
+  end
+
+  def one_merchant_revenue
+    merchant = Merchant.find(params[:id])
+    render json: MerchantSerializer.merchant_revenue(merchant)
   end
 end

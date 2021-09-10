@@ -24,6 +24,29 @@ class Merchant < ApplicationRecord
     .where("transactions.result = 'success' AND invoices.status = 'shipped'")
     .group('merchants.id').order('items_sold DESC').limit(quantity)
   end
+
+  def total_revenue
+    invoices
+    .joins(:invoice_items)
+    .joins(:transactions)
+    .where("transactions.result = 'success' AND invoices.status = 'shipped'")
+    .sum('invoice_items.quantity * invoice_items.unit_price')
+
+    # items
+    # .joins(:invoices)
+    # .joins(invoices: :transactions)
+    # .select('invoice_items.*', 'SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue')
+    # .group('invoice_items.id')
+    # .where("transactions.result = 'success' AND invoices.status = 'shipped'")
+
+    # items
+    # .joins(invoices: :invoice_items)
+    # .joins(invoices: :transactions)
+    # .select('items.*', 'SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue')
+    # .where("transactions.result = 'success' AND invoices.status = 'shipped'")
+    # .group('items.id')
+    # .order('revenue DESC')
+  end
 end
 
 
