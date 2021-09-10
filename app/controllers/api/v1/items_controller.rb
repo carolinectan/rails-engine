@@ -37,6 +37,18 @@ class Api::V1::ItemsController < ApplicationController
     render(json: item.destroy)
   end
 
+  def items_revenue
+    if !params[:quantity]
+      items = Item.top_revenue(10)
+      render json: ItemSerializer.item_revenue(items), status: 200
+    elsif params[:quantity].to_i != 0 && params[:quantity].empty? == false
+      items = Item.top_revenue(params[:quantity])
+      render json: ItemSerializer.item_revenue(items), status: 200
+    else
+      render status: :bad_request
+    end
+  end
+
   private
 
   def item_params

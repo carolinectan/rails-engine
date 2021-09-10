@@ -11,10 +11,19 @@ class Item < ApplicationRecord
 
   self.per_page = 20
 
-  #
-  #   def destroy_invoices
-  #     invoices.each do |invoice|
-  #       invoice.destroy if invoice.items.count == 1
-  #     end
+  # def destroy_invoices
+  #   invoices.each do |invoice|
+  #     invoice.destroy if invoice.items.count == 1
   #   end
+  # end
+
+  def self.top_revenue(quantity)
+    joins(:invoices)
+    .joins(invoices: :transactions)
+    .select('items.*', 'SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue')
+    .where("transactions.result = 'success' AND invoices.status = 'shipped'")
+    .group('items.id')
+    .order('revenue DESC')
+    .limit(quantity)
+  end
 end
