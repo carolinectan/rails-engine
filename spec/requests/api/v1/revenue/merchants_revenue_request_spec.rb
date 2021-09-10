@@ -109,28 +109,27 @@ RSpec.describe "Merchants Revenue API" do
       expect(response).to be_successful
 
       merchants = JSON.parse(response.body, symbolize_names: true)
-# require "pry"; binding.pry
-      expect(merchants[:data].length).to eq(2)
-      # expect(merchants[:data]).to be_an(Array)
-      #
-      # merchants[:data].each do |merchant|
-      #   expect(merchant).to have_key(:id)
-      #   expect(merchant[:id]).to be_a(String)
-      #
-      #   expect(merchant).to have_key(:type)
-      #   expect(merchant[:type]).to be_a(String)
-      #   expect(merchant[:type]).to eq('merchant_name_revenue')
-      #
-      #   expect(merchant).to have_key(:attributes)
-      #   expect(merchant).to be_a(Hash)
-      #
-      #   expect(merchant[:attributes]).to have_key(:name)
-      #   expect(merchant[:attributes][:name]).to be_a(String)
-      #
-      #   expect(merchant[:attributes]).to have_key(:revenue)
-      #   expect(merchant[:attributes][:revenue]).to be_a(Float)
-      # end
 
+      expect(merchants[:data].length).to eq(2)
+      expect(merchants[:data]).to be_an(Array)
+
+      merchants[:data].each do |merchant|
+        expect(merchant).to have_key(:id)
+        expect(merchant[:id]).to be_a(String)
+
+        expect(merchant).to have_key(:type)
+        expect(merchant[:type]).to be_a(String)
+        expect(merchant[:type]).to eq('items_sold')
+
+        expect(merchant).to have_key(:attributes)
+        expect(merchant).to be_a(Hash)
+
+        expect(merchant[:attributes]).to have_key(:name)
+        expect(merchant[:attributes][:name]).to be_a(String)
+
+        expect(merchant[:attributes]).to have_key(:count)
+        expect(merchant[:attributes][:count]).to be_an(Integer)
+      end
     end
   end
 
