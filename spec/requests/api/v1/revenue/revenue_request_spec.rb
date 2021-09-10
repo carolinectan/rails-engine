@@ -240,13 +240,12 @@ RSpec.describe "Revenue API" do
 
       expect(items[:data].length).to eq(2)
       expect(items[:data]).to be_an(Array)
-      # require "pry"; binding.pry
-      expect(items[:data].first[:id]).to eq(item2_id)
-      expect(items[:data].second[:id]).to eq(item1_id)
+      expect(items[:data].first[:id]).to eq(item2_id.to_s)
+      expect(items[:data].second[:id]).to eq(item1_id.to_s)
 
       items[:data].each do |item|
         expect(item).to have_key(:id)
-        expect(item[:id]).to be_an(Integer)
+        expect(item[:id]).to be_a(String)
 
         expect(item).to have_key(:type)
         expect(item[:type]).to be_a(String)
@@ -273,23 +272,4 @@ RSpec.describe "Revenue API" do
       end
     end
   end
-
-# quantity should default to 10 if not provided
-# endpoint should return an error if it is not an integer greater than 0.
-#
-# {
-#   "data": [
-#     {
-#       "id": 4,
-#       "type": "item_revenue",
-#       "attributes": {
-#         "name": "Men's Titanium Ring",
-#         "description": "Fine titanium ring",
-#         "unit_price": 299.99,
-#         "merchant_id": 54,
-#         "revenue": 19823.12985
-#       }
-#     }
-#   ]
-# }
 end
