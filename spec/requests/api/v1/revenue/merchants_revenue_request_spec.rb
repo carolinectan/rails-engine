@@ -173,7 +173,24 @@ RSpec.describe "Merchants Revenue API" do
 
       expect(response).to be_successful
 
-      merchants = JSON.parse(response.body, symbolize_names: true)
+      merchant = JSON.parse(response.body, symbolize_names: true)
+
+      expect(merchant.length).to eq(1)
+
+      expect(merchant[:data]).to be_a(Hash)
+
+      expect(merchant[:data]).to have_key(:id)
+      expect(merchant[:data][:id]).to be_a(String)
+
+      expect(merchant[:data]).to have_key(:type)
+      expect(merchant[:data][:type]).to be_a(String)
+      expect(merchant[:data][:type]).to eq('merchant_revenue')
+
+      expect(merchant[:data]).to have_key(:attributes)
+      expect(merchant[:data][:attributes]).to be_a(Hash)
+
+      expect(merchant[:data][:attributes]).to have_key(:revenue)
+      expect(merchant[:data][:attributes][:revenue]).to be_a(Float)
     end
   end
 end
