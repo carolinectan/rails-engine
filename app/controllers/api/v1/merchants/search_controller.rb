@@ -1,4 +1,4 @@
-class Api::V1::Merchants::MerchantSearchController < ApplicationController
+class Api::V1::Merchants::SearchController < ApplicationController
   def index
     if params[:name] && !(Merchant.where('name ILIKE ?', "%#{params[:name]}%").first).nil?
       merchant = Merchant.where('name ILIKE ?', "%#{params[:name]}%").first
