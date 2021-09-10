@@ -9,7 +9,7 @@ describe 'find items API' do
 
       search_query = 'doG'
 
-      get '/api/v1/items/find_all', params: {name: search_query}
+      get '/api/v1/items/find_all', params: { name: search_query }
 
       expect(response).to be_successful
 

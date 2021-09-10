@@ -1,10 +1,10 @@
 class Api::V1::Merchants::SearchController < ApplicationController
   def index
-    if params[:name] && !(Merchant.where('name ILIKE ?', "%#{params[:name]}%").first).nil?
+    if params[:name] && !Merchant.where('name ILIKE ?', "%#{params[:name]}%").first.nil?
       merchant = Merchant.where('name ILIKE ?', "%#{params[:name]}%").first
       render json: MerchantSerializer.new(merchant)
     else
-      render json: {data: {}}
+      render json: { data: {} }
     end
   end
 end

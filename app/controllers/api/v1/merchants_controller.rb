@@ -30,7 +30,7 @@ class Api::V1::MerchantsController < ApplicationController
       merchants = Merchant.top_revenue(params[:quantity])
       render json: MerchantSerializer.merchant_name_revenue(merchants)
     else
-      render json: {error: ""}, status: :bad_request
+      render json: { error: '' }, status: :bad_request
     end
   end
 
@@ -39,7 +39,7 @@ class Api::V1::MerchantsController < ApplicationController
       merchants = Merchant.most_items(params[:quantity])
       render json: MerchantSerializer.items_sold(merchants)
     else
-      render json: {error: ""}, status: :bad_request
+      render json: { error: '' }, status: :bad_request
     end
   end
 

@@ -12,7 +12,7 @@ describe 'find merchant API' do
 
       search_query = 'bLutH'
 
-      get '/api/v1/merchants/find', params: {name: search_query}
+      get '/api/v1/merchants/find', params: { name: search_query }
 
       expect(response).to be_successful
 
