@@ -15,6 +15,15 @@ class Merchant < ApplicationRecord
     .order('revenue DESC')
     .limit(quantity)
   end
+
+  def self.most_items(quantity)
+    # The quantity should default to 5 if not provided, and return an error if it is not an integer greater than 0.
+    joins(invoices: :invoice_items)
+    .joins(invoices: :transactions)
+    .select('merchants.*', 'SUM(invoice_items.quantity) AS items_sold')
+    .where("transactions.result = 'success' AND invoices.status = 'shipped'")
+    .group('merchants.id').order('items_sold DESC').limit(quantity)
+  end
 end
 
 

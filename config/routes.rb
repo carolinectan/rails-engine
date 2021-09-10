@@ -11,6 +11,8 @@ Rails.application.routes.draw do
         resources :find, only: [:index], controller: :search
       end
 
+      get '/merchants/most_items', to: 'merchants#merchant_most_items'
+
       get '/revenue/merchants', to: 'merchants#merchant_revenue', controller: :merchants
 
       # namespace :revenue do

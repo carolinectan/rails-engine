@@ -33,4 +33,13 @@ class Api::V1::MerchantsController < ApplicationController
       render json: {error: ""}, status: :bad_request
     end
   end
+
+  def merchant_most_items
+    if params[:quantity]
+      merchants = Merchant.most_items(params[:quantity])
+      render json: MerchantSerializer.items_sold(merchants)
+    else
+      render json: {error: ""}, status: :bad_request
+    end
+  end
 end
