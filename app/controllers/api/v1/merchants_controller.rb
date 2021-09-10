@@ -24,4 +24,13 @@ class Api::V1::MerchantsController < ApplicationController
     merchant = Merchant.find(params[:id])
     render json: MerchantSerializer.new(merchant)
   end
+
+  def merchant_revenue
+    if params[:quantity] && params[:quantity].empty? == false
+      merchants = Merchant.top_revenue(params[:quantity])
+      render json: MerchantSerializer.merchant_name_revenue(merchants)
+    else
+      render json: {error: ""}, status: :bad_request
+    end
+  end
 end
