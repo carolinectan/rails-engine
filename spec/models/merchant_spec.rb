@@ -47,9 +47,8 @@ RSpec.describe Merchant, type: :model do
 
   describe 'class methods' do
     describe '.top_revenue' do
-      it 'returns a variable number of merchants ranked by total revenue' do
-        
-      end
+#       it 'returns a variable number of merchants ranked by total revenue' do
+#       end
     end
   end
 

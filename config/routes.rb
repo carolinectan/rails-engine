@@ -11,11 +11,11 @@ Rails.application.routes.draw do
         resources :find, only: [:index], controller: :search
       end
 
-      get '/revenue/merchants', to: 'merchants#merchant_revenue', controller: :merchants
+      get '/merchants/most_items', to: 'merchants#merchant_most_items'
 
-      # namespace :revenue do
-      #   resources :merchants, only: [:index], controller: :top_revenue
-      # end
+      get '/revenue/merchants', to: 'merchants#merchants_revenue'
+      get '/revenue/merchants/:id', to: 'merchants#one_merchant_revenue'
+      get '/revenue/items', to: 'items#items_revenue'
 
       resources :items, only: [:index, :show, :create, :destroy, :update]
 
