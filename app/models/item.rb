@@ -19,11 +19,11 @@ class Item < ApplicationRecord
 
   def self.top_revenue(quantity)
     joins(:invoices)
-    .joins(invoices: :transactions)
-    .select('items.*', 'SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue')
-    .where("transactions.result = 'success' AND invoices.status = 'shipped'")
-    .group('items.id')
-    .order('revenue DESC')
-    .limit(quantity)
+      .joins(invoices: :transactions)
+      .select('items.*', 'SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue')
+      .where("transactions.result = 'success' AND invoices.status = 'shipped'")
+      .group('items.id')
+      .order('revenue DESC')
+      .limit(quantity)
   end
 end

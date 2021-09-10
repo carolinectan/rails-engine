@@ -8,29 +8,29 @@ class Merchant < ApplicationRecord
 
   def self.top_revenue(quantity)
     joins(invoices: :invoice_items)
-    .joins(invoices: :transactions)
-    .select('merchants.*', 'SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue')
-    .where("transactions.result = 'success' AND invoices.status = 'shipped'")
-    .group('merchants.id')
-    .order('revenue DESC')
-    .limit(quantity)
+      .joins(invoices: :transactions)
+      .select('merchants.*', 'SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue')
+      .where("transactions.result = 'success' AND invoices.status = 'shipped'")
+      .group('merchants.id')
+      .order('revenue DESC')
+      .limit(quantity)
   end
 
   def self.most_items(quantity)
     # The quantity should default to 5 if not provided, and return an error if it is not an integer greater than 0.
     joins(invoices: :invoice_items)
-    .joins(invoices: :transactions)
-    .select('merchants.*', 'SUM(invoice_items.quantity) AS items_sold')
-    .where("transactions.result = 'success' AND invoices.status = 'shipped'")
-    .group('merchants.id').order('items_sold DESC').limit(quantity)
+      .joins(invoices: :transactions)
+      .select('merchants.*', 'SUM(invoice_items.quantity) AS items_sold')
+      .where("transactions.result = 'success' AND invoices.status = 'shipped'")
+      .group('merchants.id').order('items_sold DESC').limit(quantity)
   end
 
   def total_revenue
     invoices
-    .joins(:invoice_items)
-    .joins(:transactions)
-    .where("transactions.result = 'success' AND invoices.status = 'shipped'")
-    .sum('invoice_items.quantity * invoice_items.unit_price')
+      .joins(:invoice_items)
+      .joins(:transactions)
+      .where("transactions.result = 'success' AND invoices.status = 'shipped'")
+      .sum('invoice_items.quantity * invoice_items.unit_price')
 
     # items
     # .joins(:invoices)
@@ -48,9 +48,6 @@ class Merchant < ApplicationRecord
     # .order('revenue DESC')
   end
 end
-
-
-
 
 # merchant.map do |m|
 # m.revenue
